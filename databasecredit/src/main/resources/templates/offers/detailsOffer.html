@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Offer details</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+</head>
+<body>
+    <h1>Система учета кредитов</h1>
+    <h1>Кредитное предложение</h1>
+    <br/>
+    <h6>Для (
+        <span th:text="${cln_name}"></span>
+        )
+    </h6>
+    <br>
+
+    <div th:if="${offer != null}">
+        <form action="#" th:action="@{/approved}" th:object="${offer}" method="post">
+        <table>
+            <tr>
+                <td>Клиент ID:</td>
+                <td><input type="text" th:field="*{client.id}"></input></td>
+                <td th:if="${#fields.hasErrors('client.id')}" th:errors="*{client.id}">Id client Error</td>
+            </tr>
+            <tr>
+                <td>Описание:</td>
+                <td><input type="text" th:field="*{fullName}"></input></td>
+                <td th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">Id client Error</td>
+            </tr>
+            <tr>
+                <td>Offer ID:</td>
+                <td><input type="text" th:field="*{id}"></input></td>
+                <td th:if="${#fields.hasErrors('id')}" th:errors="*{id}">Id Error</td>
+            </tr>
+            <tr>
+                <td>Банковский кредит ID:</td>
+                <td><input type="text" th:field="*{credit}"></input></td>
+                <td th:if="${#fields.hasErrors('credit')}" th:errors="*{credit}">Id Error</td>
+                <td>
+                    <input type="hidden" th:field="*{client.id}" name="id"></input>
+                    <li><a th:href="@{/directCredits(id=${client.id})}">Выбрать кредит из списка</a></li>
+                </td>
+            </tr>
+            <tr>
+                <td>Сумма кредита:</td>
+                <td><input type="text" th:field="*{amount}"></input></td>
+                <td th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}">Amount Error</td>
+            </tr>
+            <br/>
+        </table>
+        <br/>
+            <input type="hidden" th:field="*{client}"></input>
+            <button type="submit" class="btn btn-primary">Approved Credit</button>
+        </form>
+    </div>
+    <br/>
+    <br/>
+
+    <div th:if="${offer} == null">
+        <h1 th:tetx="'No offer found with id: '">Not offer</h1>
+    </div>
+
+
+</body>
+</html>

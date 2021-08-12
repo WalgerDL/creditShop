@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Credit List</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css" th:href="@{/css/styles.css}" />
+</head>
+<body>
+    <h1>Система учета кредитов</h1>
+    <h2>Список кредитов</h2>
+    <div sec:authorize="hasRole('ROLE_ADMIN')">
+        <th:block th:include="/_menuA"></th:block>
+    </div>
+    <div sec:authorize="hasRole('ROLE_USER')">
+        <th:block th:include="/_menuU"></th:block>
+    </div>
+    <br/>
+    <table border="1">
+        <thead>
+        <tr>
+            <th width="40" align="center">NN</th>
+            <th>Кредитный лимит</th>
+            <th>Кредитная ставка(%)</th>
+            <th>Срок кредита</th>
+            <th>Тип кредита</th>
+            <th width="45">Банк</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="credit : ${credits}">
+            <form action="#" th:action="@{/deleteCredit(id=${credit.id})}" th:object="${credit}" method="post">
+             <td width="40" align="center">
+                <a th:href="@{/credits.html(id=${credit.id})}" href="#"
+                   th:text="${credit.id}">12345</a>
+              </td>
+              <td th:text="${#numbers.formatCurrency(credit.limitCredit)}">Кредитный лимит</td>
+              <td th:text="${credit.rate}">Кредитная ставка</td>
+              <td th:text="${credit.term}">Срок кредита</td>
+              <td th:text="${credit.type_credit}">Тип кредита</td>
+              <td th:text="${credit.bank.nameBank}" width="45">Банк bank bank</td>
+                <div sec:authorize="hasRole('ROLE_ADMIN')">
+                    <td><button>Delete</button></td>
+                </div>
+            </form>
+        </tr>
+        </tbody>
+    </table>
+    <br/>
+
+    <form action="#" th:action="@{/credit}" th:object="${credit}" method="post">
+        <button type="submit" class="btn btn-primary">Create Credit</button>
+    </form>
+
+</body>
+</html>

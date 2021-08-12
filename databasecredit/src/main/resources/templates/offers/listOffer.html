@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Offer List</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css" th:href="@{/css/styles.css}" />
+</head>
+<body>
+    <h1>Система учета кредитов</h1>
+    <h2>Список предложений</h2>
+    <div sec:authorize="hasRole('ROLE_ADMIN')">
+        <th:block th:include="/_menuA"></th:block>
+    </div>
+    <div sec:authorize="hasRole('ROLE_USER')">
+        <th:block th:include="/_menuU"></th:block>
+    </div>
+    <br/>
+    <table border="1">
+        <thead>
+        <tr>
+            <th width="40" align="center">NN</th>
+            <th>Предложение</th>
+            <th>Сумма кредита</th>
+            <th width="45">Одобрен</th>
+            <th width="40">Сообщение</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="offer : ${offers}">
+            <form action="#" th:action="@{/deleteOffer(id=${offer.id})}" th:object="${offer}" method="post">
+                <td width="40" align="center">
+                    <a th:href="@{/offer(id=${offer.id})}" href="#"
+                       th:text="${offer.id}">12345</a>
+                </td>
+                <td th:text="${offer.fullName}">Предложение</td>
+                <td th:text="${#numbers.formatDecimal(offer.amount, 0, 'COMMA', 2, 'POINT')}">Сумма кредита</td>
+                <td th:text="${offer.completed}">Сумма кредита</td>
+                <td th:text="${offer.message}" width="45">Сообщение</td>
+
+                <div sec:authorize="hasRole('ROLE_ADMIN')">
+                    <td><button>Delete</button></td>
+                </div>
+            </form>
+            <form action="#" th:action="@{/paymentSchedule(id=${offer.id})}" th:object="${offer}" method="post">
+                <td><button type="submit" class="btn btn-primary">График платежей</button></td>
+            </form>
+        </tr>
+        </tbody>
+    </table>
+    <br/>
+
+</body>
+</html>

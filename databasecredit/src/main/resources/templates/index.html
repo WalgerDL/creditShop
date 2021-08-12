@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <!-- <link th:href="@{/css/styles.css}" rel="stylesheet" /> -->
+    <meta charset="UTF-8">
+    <title>Loan accounting and calculation system</title>
+    <link rel="stylesheet" href="/css/styles.css" th:href="@{/css/styles.css}" />
+</head>
+<body>
+    <h1>Система учета кредитов</h1>
+    <h2>Курсовой проект</h2>
+    <div sec:authorize="hasRole('ROLE_ADMIN')">
+        <th:block th:include="/_menuA"></th:block>
+    </div>
+    <div sec:authorize="hasRole('ROLE_USER')">
+        <th:block th:include="/_menuU"></th:block>
+    </div>
+    <br/>
+
+    <!--th:block th:include="/_menuA"></th:block> -->
+    <!--div sec:authorize="hasAuthority('ADMIN')" > Has Authority ADMIN </-div> -->
+    <!--div sec:authorize="hasAuthority('USER')" > Has Authority USER </div> -->
+    <!--div sec:authorize="hasRole('ADMIN')">Has Role ADMIN</div> -->
+    <!--div sec:authorize="hasRole('USER')">Has Role USER</div> -->
+    <br/>
+</body>
+</html>

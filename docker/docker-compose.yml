@@ -1,0 +1,132 @@
+version: '3.8'
+
+services:
+
+  # Пример использования запуска приложения из docker-compose
+  #rest:
+  #  image: образ докера
+  #  container_name: rest
+  #  ports:
+  #    - 8080:8080
+  #  depends_on:
+  #    - db-container
+  #  restart: always
+
+  db-container: # Наименование сервиса БД в рамках docker compose
+    image: postgres # Наименование образа докера postgres - не менять - нужен для того, чтобы загрузить постгрес
+    container_name: db-container # Наименование контейнера
+    expose: # Список открытых портов контейнера, которые открыты наружу
+      - "5432"
+    ports: # Список портов, которые передаются изнутри контейнера наружу
+      - 5432:5432 # Порт внутри контейнера 5432: передается на порт наружу 5432
+    command: postgres -c 'max_connections=200' # Возможные команды, которые можно пережать для выполнения в момент запуска контейнера
+    volumes: # Хранилища, находящиеся на виртуальной машине/сервере, необходимые для того, чтобы при остановке и запуске контейнера БД не убивалась и данные не стрирались при остановке
+      - db-data:/var/lib/postgresql/data # Данные самой БД
+      - db-dump:/backups # Хранилище дампов БД
+    environment: # Переменные окружения в которые зашиваются параметры для пользователя/пароля и используемой в БД схемы
+      - POSTGRES_USER=postgres
+      #- POSTGRES_PASSWORD=zz#~n3wf
+      - POSTGRES_PASSWORD=f541fd126
+      - POSTGRES_DB=normalize1
+    restart: always # Политика перезапуска сервиса если в нём возникает ошибка
+
+  zookeeper: # Является неотъемлемой частью Kafka.
+    #image: wurstmeister/zookeeper # Наименование образа Zookeeper
+    image: 'bitnami/zookeeper:3.4.14'
+    container_name: zookeeper # Наименование контейнера
+    ports: # Передача порта 2181 из контейнера в сеть Docker.
+      - '2181:2181' # Не путать с открытием порта наружу, за это отвечает expose
+    volumes:
+      - 'zookeeper_data:/bitnami'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    restart: always
+
+  kafka: # Сам брокер сообщений Kafka
+    #image: wurstmeister/kafka # Наименование образа Kafka
+    image: 'bitnami/kafka:2.3.0'
+    container_name: kafka # Наименование контейнера
+    #expose: # Список открытых портов контейнера, которые открыты наружу
+    #  - "9092"
+    ports: # Передача порта 9092 из контейнера в сеть Docker.
+      - '9092:9092'
+#    command: [ start-kafka.sh ] # Команда для запуска кафки при разворачивании контейнера Docker
+    environment: # Переменные окружения для гибкой настройки Kafka брокера
+      #KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      #KAFKA_MESSAGE_MAX_BYTES: 2000000
+      #KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      #KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      #KAFKA_LISTENERS: PLAINTEXT://:9092
+      #KAFKA_LOG_DIRS: /kafka/kafka-logs
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+    #volumes: # Хранение логов
+    #  - /var/run/docker.sock:/var/run/docker.sock
+    volumes:
+      - 'kafka_data:/bitnami'
+    depends_on: # Запуск после инициализации zookeeper
+      - zookeeper
+    restart: always # Перезапуск всегда при ошибке в контейнере
+
+volumes: # Постоянные тома, используемые для хранения данных БД
+  db-data:
+    name: db-data
+    driver: local
+  db-dump:
+    name: db-dump
+    driver: local
+  zookeeper_data:
+    driver: local
+  kafka_data:
+    driver: local
+
+networks: # Наименование внутренней сети docker compose
+  default:
+    name: appnetwork
+    
+    
+#calculationpayment:
+#    container_name: calculationpayment
+#    build: ./calculationpayment
+#    restart: always
+#    ports:
+#      - "8082:8082"
+#    command: java -jar ./usr/src/app/calculationpayment.jar
+#  databasecredit:
+  #  container_name: databasecredit
+  #  build: ./databasecredit
+ #   restart: always
+  #  ports:
+  #    - "8081:8081"
+ # - "465:465"
+  #  command: java -jar ./usr/src/app/databasecredit.jar
+#  scoringcredit:
+ #   container_name: scoringcredit
+ #   build: ./scoringcredit
+ #   restart: always
+ #   ports:
+  #    - "8083:8083"
+ #   command: java -jar ./usr/src/app/scoringcredit.jar
+#accountingoffer:
+    #container_name: accountingoffer
+   # build: ./accountingoffer
+   # restart: always
+   # ports:
+   #   - "8084:8084"
+  #  command: java -jar ./usr/src/app/accountingoffer.jar    
+
+# Запуск приложения:
+    # В месте нахождения docker-compose.yml выполнить команду "docker-compose up -d"
+    # Для проверки работы контейнера можно выполнить команду "docker inspect <наименование_контейнера>(прим. db-container)"
+    # Корректный запуск Postgres можно проверить командой "docker exec <наименование_контейнера_в_compose>(прим. db-container) psql -U postgres -l"
+    # После выполнения можно будет увидеть список доступных в развернутой БД схем
+    # Другим вариантом можно зайти внутрь развернутого контейнера docker "docker container exec -it <наименование_контейнера>(прим. db-container) bash"
+    # Внутри контейнера подключиться к БД и схеме "psql --host=db-container --username=postgres --dbname=normalize1"
+    # Далее можно выполнить "\d" для получения списка таблиц
+    # Выйти из консоли контейнера можно через "ctrl+d"
+    # Также, после запуска контейнера, можно попасть в БД, обратившись просто к localhost:5432, так как мы открыли порт 5432 наружу
+    # Сделать это можно выполнив следующее: "psql -h localhost -p 5432 -U postgres -W - подключиться к postgres"
+    # "\c normalize1 - подключиться к БД"
+    # "\d - проверить список таблиц"
+    # Для остановки контейнера выполнить "docker-compose stop"

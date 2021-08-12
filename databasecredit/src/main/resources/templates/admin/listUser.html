@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>List User</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css" th:href="@{/css/styles.css}" />
+</head>
+<body>
+    <h1>Система учета кредитов</h1>
+    <h2>Список пользователей</h2>
+    <th:block th:include="/_menuA"></th:block>
+    <br/>
+    <table border="1">
+        <thead>
+            <th>ID</th>
+            <th>UserName</th>
+            <th>Password</th>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.username}"></td>
+                <td th:text="${user.password}"></td>
+                <td>
+                    <form action="${pageContext.request.contextPath}/admin" method="post">
+                        <input type="hidden" name="userId" value="${user.id}"/>
+                        <input type="hidden" name="action" value="delete"/>
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>

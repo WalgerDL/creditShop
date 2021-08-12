@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment Schedules</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css" th:href="@{/css/styles.css}" />
+</head>
+<body>
+    <h1>Система учета кредитов</h1>
+    <h2>График платежей</h2>
+    <br/>
+    <h6>график платежей для
+        <span th:text="${cln_name}"></span>
+    </h6>
+    <br/>
+    <div th:if="${payments != null}">
+        <table border="1">
+        <thead>
+        <tr>
+            <th width="40" align="center">NN</th>
+            <th width="45">Сумма</th>
+            <th width="45">Начисленные %</th>
+            <th width="40">Платеж (сумма+%)</th>
+            <th width="100">Остаток по кредиту</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="payment,iterStat : ${payments.payments}">
+                <td th:text="${iterStat.count}">NN NN</td>
+                <td th:text="${#numbers.formatDecimal(payment.arrayMoney, 0, 'COMMA', 2, 'POINT')}">Сумма кредита</td>
+                <td th:text="${#numbers.formatDecimal(payment.persent, 0, 'COMMA', 2, 'POINT')}">Проценты Проценты</td>
+                <td th:text="${#numbers.formatDecimal(payment.paymentAmount, 0, 'COMMA', 2, 'POINT')}">Платеж сумма и проценты</td>
+                <td th:text="${#numbers.formatDecimal(payment.principalBalance, 0, 'COMMA', 2, 'POINT')}" width="100">Остаток по кредиту, кредиту </td>
+            </tr>
+        </tbody>
+    </table>
+    <br/>
+    <table>
+         <tr>
+            <td>
+                <form method="POST" action="#" th:action="@{/downloadExcel}" th:object="${payments}">
+                    <button type="submit" class="btn btn-primary">Export to Excel</button>
+                </form>
+            </td>
+            <td>
+                <form method="POST" action="#" th:action="@{/exportPdf}" th:object="${payments}">
+                    <button type="submit" class="btn btn-primary">Export to Pdf</button>
+                </form>
+            </td>
+         </tr>
+    </table>
+  </div>
+
+</body>
+</html>

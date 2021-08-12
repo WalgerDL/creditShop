@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Credit details</title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css" />
+</head>
+<body>
+  <h1>Система учета кредитов</h1>
+  <h1>Кредит</h1>
+  <br/>
+  <div th:if="${credit != null}">
+    <form method="POST" action="#" th:action="@{/credits.html}" th:object="${credit}">
+      <table>
+        <tr>
+          <td>ID:</td>
+          <td><input type="text" th:field="*{id}"></input></td>
+          <td th:if="${#fields.hasErrors('id')}" th:errors="*{id}">Id Error</td>
+        </tr>
+
+        <tr>
+          <td>Кредитный лимит:</td>
+          <td><input type="text" th:field="*{limitCredit}" size="30"></input></td>
+          <td th:if="${#fields.hasErrors('limitCredit')}" th:errors="*{limitCredit}">Limit Error</td>
+        </tr>
+
+        <tr>
+          <td>Кредитная ставка (%):</td>
+          <td><input type="text" th:field="*{rate}" size="15"></input></td>
+          <td th:if="${#fields.hasErrors('rate')}" th:errors="*{rate}">Rate Error</td>
+        </tr>
+
+        <tr>
+          <td>Срок кредита (мес.):</td>
+          <td><input type="text" th:field="*{term}"></input></td>
+          <td th:if="${#fields.hasErrors('term')}" th:errors="*{term}">Term Error</td>
+        </tr>
+        <tr>
+          <td>Тип кредита:</td>
+          <td>
+            <select th:field="*{type_credit}" size="1">
+              <option th:each="type_credit : ${allTypes}"
+                      th:value="${type_credit}"
+                      th:text="${type_credit}">Тип кредита</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>====Банк====</td>
+        </tr>
+
+        <tr>
+          <td>Банк:</td>
+          <td>
+            <select th:field="*{bank}" size="1">
+              <option th:each="bank : ${banks}"
+                      th:value="${bank.id}"
+                      th:text="${bank.nameBank}">Банк Банк</option>
+            </select>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <button type="submit" class="btn btn-primary">Update/Create Credit</button>
+          </td>
+        </tr>
+      </table>
+
+    </form>
+  </div>
+
+  <div th:if="${credit} == null">
+    <h1 th:tetx="'No credit found with id: '"+${param.id}>Not found</h1>
+  </div>
+
+</body>
+</html>

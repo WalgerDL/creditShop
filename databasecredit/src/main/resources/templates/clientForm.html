@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Client</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/styles.css" th:href="@{/css/styles.css}" />
+</head>
+<body>
+
+    <h1>Система учета кредитов</h1>
+    <h2>Поиск клиента</h2>
+    <div sec:authorize="hasRole('ROLE_ADMIN')">
+        <th:block th:include="/_menuA"></th:block>
+    </div>
+    <div sec:authorize="hasRole('ROLE_USER')">
+        <th:block th:include="/_menuU"></th:block>
+    </div>
+    <br/>
+    <!-- END PAGE TITLE -->
+    <div class="column">
+        <form action="#" th:action="@{/client}" th:object="${client}" method="post">
+            <table>
+                <tr>
+                    <td>Наименование:</td>
+                    <td><input type="text" th:field="*{fullName}" name="fullName"></input></td>
+                    <td th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">FullName Error</td>
+                </tr>
+
+                <tr>
+                    <td>Номер телефона:</td>
+                    <td><input type="text" th:field="*{numberPhone}" name="numberPhone"></input></td>
+                    <td th:if="${#fields.hasErrors('numberPhone')}" th:errors="*{numberPhone}">Phone Error</td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <button type="submit" class="btn btn-primary">Find Client</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <!-- END PAGE CONTENT -->
+    <!-- END PAGE CONTAINER -->
+</body>
+</html>

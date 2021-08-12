@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+</head>
+<body>
+    <h1>Система учета кредитов</h1>
+    <h1>Клиент</h1>
+
+    <div th:if="${client != null}">
+        <form method="POST" action="#" th:action="@{/clients.html}" th:object="${client}">
+            <table>
+                <tr>
+                    <td>ID:</td>
+                    <td><input type="text" th:field="*{id}"></input></td>
+                    <td th:if="${#fields.hasErrors('id')}" th:errors="*{id}">Id Error</td>
+                </tr>
+
+                <tr>
+                    <td>Полное наименование:</td>
+                    <td><input type="text" th:field="*{fullName}" size="45"></input></td>
+                    <td th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">FullName Error</td>
+                </tr>
+
+                <tr>
+                    <td>Дата рождения:</td>
+                    <td><input type="date" th:field="*{{birthDate}}" ></input></td>
+                    <td th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}">BirthDate Error</td>
+                </tr>
+
+                <tr>
+                    <td>Номер телефона:</td>
+                    <td><input type="text" th:field="*{numberPhone}"></input></td>
+                    <td th:if="${#fields.hasErrors('numberPhone')}" th:errors="*{numberPhone}">Phone Error</td>
+                </tr>
+
+                <tr>
+                    <td>Электронная почта:</td>
+                    <td><input type="text" th:field="*{email}"></input></td>
+                    <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Phone Error</td>
+                </tr>
+                <tr>
+                    <td>====Пспорт====</td>
+                </tr>
+                <tr>
+                    <td>Пспорт серия:</td>
+                    <td><input type="text" th:field="*{serialPassport}"></input></td>
+                    <td th:if="${#fields.hasErrors('serialPassport')}" th:errors="*{serialPassport}">Serial Error</td>
+                </tr>
+                <tr>
+                    <td>Пспорт номер:</td>
+                    <td><input type="text" th:field="*{numberPassport}"></input></td>
+                    <td th:if="${#fields.hasErrors('numberPassport')}" th:errors="*{numberPassport}">Passport Number Error</td>
+                </tr>
+
+                <tr>
+                    <td>====Банк====</td>
+                </tr>
+
+                <tr>
+                    <td>Банк:</td>
+                    <td>
+                        <select th:field="*{bank}" size="1">
+                            <option th:each="bank : ${banks}"
+                                    th:value="${bank.id}"
+                                    th:text="${bank.nameBank}">Банк Банк</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="submit" class="btn btn-primary">Update/Create Client</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <br/>
+        <br/>
+
+        <table>
+            <tr>
+                <td>
+                    <form method="GET" action="#" th:action="@{/clientOffers(id=${client.id})}" th:object="${client}">
+                        <input type="hidden" th:field="*{id}" name="id"></input>
+                        <button type="submit" class="btn btn-secondary">List credit</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="POST" action="#" th:action="@{/offers.html}" th:object="${client}">
+                        <input type="hidden" th:field="*{id}"></input>
+                        <button type="submit" class="btn btn-secondary">Offer credit</button>
+                    </form>
+
+                </td>
+            </tr>
+        </table>
+        <br/>
+    </div>
+
+    <div th:if="${client} == null">
+        <h1 th:tetx="'No client found with id: '"+${param.id}>Not found</h1>
+    </div>
+
+</body>
+</html>

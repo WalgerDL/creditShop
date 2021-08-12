@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="Create table" author="ivan">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="client"/>
+            </not>
+            <not>
+                <tableExists tableName="bank"/>
+            </not>
+            <not>
+                <tableExists tableName="credit"/>
+            </not>
+            <not>
+                <tableExists tableName="'user'"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="client">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="full_name" type="varchar(100)"/>
+            <column name="birth_date" type="date"/>
+            <column name="number_phone" type="varchar(20)"/>
+            <column name="email_address" type="varchar(100)"/>
+            <column name="serial_passport" type="varchar(10)"/>
+            <column name="number_passport" type="varchar(12)"/>
+            <column name="bank_ref" type="bigint"/>
+        </createTable>
+
+        <createTable tableName="bank">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name_bank" type="varchar(100)"/>
+        </createTable>
+
+        <createTable tableName="credit">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="limit_credit" type="decimal(17, 2)"/>
+            <column name="rate" type="decimal(5, 2)"/>
+            <column name="term" type="integer"/>
+            <column name="type_credit" type="varchar(15)"/>
+            <column name="bank_ref" type="bigint"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="Create table creditoffer" author="ivan">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="creditoffer"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="creditoffer">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="full_name" type="varchar(200)"/>
+            <column name="client_id" type="bigint"/>
+            <column name="credit_id" type="bigint"/>
+            <column name="amount" type="decimal(17, 2)"/>
+            <column name="dt_created" type="datetime"/>
+            <column name="message_app" type="varchar(250)"/>
+            <column name="offer_app" type="boolean"/>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet id="Create table ps_user" author="ivan">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="ps_user"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="ps_user">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="username" type="varchar(100)"/>
+            <column name="password" type="varchar(200)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="Create table ps_role" author="ivan">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="ps_role"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="ps_role">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(200)"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

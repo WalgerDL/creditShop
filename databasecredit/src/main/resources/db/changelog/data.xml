@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="insert data to Bank" author="ivan">
+
+        <insert tableName="bank">
+            <column name="name_bank" value="Альфа"/>
+        </insert>
+        <insert tableName="bank">
+            <column name="name_bank" value="СБЕР"/>
+        </insert>
+        <insert tableName="bank">
+            <column name="name_bank" value="ВТБ"/>
+        </insert>
+        <insert tableName="bank">
+            <column name="name_bank" value="Газпромбанк"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="insert data to Credit" author="ivan">
+        <insert tableName="credit">
+            <column name="limit_credit" value="1000000"/>
+            <column name="rate" value="12.5"/>
+            <column name="term" value="24"/>
+            <column name="type_credit" value="ANNUITY"/>
+            <column name="bank_ref" value="1"/>
+        </insert>
+        <insert tableName="credit">
+            <column name="limit_credit" value="1200000"/>
+            <column name="rate" value="11.5"/>
+            <column name="term" value="36"/>
+            <column name="type_credit" value="ANNUITY"/>
+            <column name="bank_ref" value="1"/>
+        </insert>
+        <insert tableName="credit">
+            <column name="limit_credit" value="2500000"/>
+            <column name="rate" value="10.0"/>
+            <column name="term" value="60"/>
+            <column name="type_credit" value="ANNUITY"/>
+            <column name="bank_ref" value="2"/>
+        </insert>
+        <insert tableName="credit">
+            <column name="limit_credit" value="3500000"/>
+            <column name="rate" value="10.0"/>
+            <column name="term" value="80"/>
+            <column name="type_credit" value="DIFFERENTIAL"/>
+            <column name="bank_ref" value="2"/>
+        </insert>
+        <insert tableName="credit">
+            <column name="limit_credit" value="2500000"/>
+            <column name="rate" value="9.5"/>
+            <column name="term" value="48"/>
+            <column name="type_credit" value="ANNUITY"/>
+            <column name="bank_ref" value="2"/>
+        </insert>
+        <insert tableName="credit">
+            <column name="limit_credit" value="6000000"/>
+            <column name="rate" value="9.5"/>
+            <column name="term" value="48"/>
+            <column name="type_credit" value="ANNUITY"/>
+            <column name="bank_ref" value="3"/>
+        </insert>
+        <insert tableName="credit">
+            <column name="limit_credit" value="1500000"/>
+            <column name="rate" value="9.5"/>
+            <column name="term" value="24"/>
+            <column name="type_credit" value="DIFFERENTIAL"/>
+            <column name="bank_ref" value="3"/>
+        </insert>
+        <insert tableName="credit">
+            <column name="limit_credit" value="2000000"/>
+            <column name="rate" value="10.5"/>
+            <column name="term" value="48"/>
+            <column name="type_credit" value="ANNUITY"/>
+            <column name="bank_ref" value="4"/>
+        </insert>
+        <insert tableName="credit">
+            <column name="limit_credit" value="5000000"/>
+            <column name="rate" value="11.0"/>
+            <column name="term" value="48"/>
+            <column name="type_credit" value="ANNUITY"/>
+            <column name="bank_ref" value="4"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="insert data client" author="ivan">
+        <insert tableName="client">
+            <column name="full_name" value="Иванов Иван Петрович"/>
+            <column name="birth_date" value="1966-01-01"/>
+            <column name="number_phone" value="911-894-53-12"/>
+            <column name="email_address" value="ivanow@mail.ru"/>
+            <column name="bank_ref" value="1"/>
+        </insert>
+        <insert tableName="client">
+            <column name="full_name" value="Петров Степан Сергеевич"/>
+            <column name="birth_date" value="1984-05-15"/>
+            <column name="number_phone" value="912-890-50-10"/>
+            <column name="email_address" value="petrow.s.s@mail.ru"/>
+            <column name="bank_ref" value="1"/>
+        </insert>
+        <insert tableName="client">
+            <column name="full_name" value="Филипов Ян Владимирович"/>
+            <column name="birth_date" value="1979-11-24"/>
+            <column name="number_phone" value="912-835-32-76"/>
+            <column name="email_address" value="filipoff@gmail.com"/>
+            <column name="bank_ref" value="2"/>
+        </insert>
+        <insert tableName="client">
+            <column name="full_name" value="Киркоров Владимир Владимирович"/>
+            <column name="birth_date" value="1995-01-17"/>
+            <column name="number_phone" value="911-445-22-46"/>
+            <column name="email_address" value="kira_kora@gmail.com"/>
+            <column name="bank_ref" value="3"/>
+        </insert>
+        <insert tableName="client">
+            <column name="full_name" value="Мухин Осан Комарович"/>
+            <column name="birth_date" value="1917-04-07"/>
+            <column name="number_phone" value="915-340-77-12"/>
+            <column name="email_address" value="muchinn@gmail.com"/>
+            <column name="bank_ref" value="4"/>
+        </insert>
+        <insert tableName="client">
+            <column name="full_name" value="Осин Минаил Степанович"/>
+            <column name="birth_date" value="1905-02-02"/>
+            <column name="number_phone" value="911-541-74-33"/>
+            <column name="email_address" value="osin@gmail.com"/>
+            <column name="bank_ref" value="4"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="insert data role" author="ivan">
+        <insert tableName="ps_role">
+            <column name="name" value="ROLE_USER"/>
+        </insert>
+        <insert tableName="ps_role">
+            <column name="name" value="ROLE_ADMIN"/>
+        </insert>
+        <insert tableName="ps_role">
+            <column name="name" value="ROLE_OPERATOR"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="insert data user" author="ivan">
+        <insert tableName="ps_user">
+            <column name="username" value="user@1"/>
+            <column name="password" value="$2a$10$f0UPTa5mjuoKsdWPWoVdGuBM1tkBQUK8bpDyuAw69gUzNjlP7vHje"/>
+        </insert>
+        <insert tableName="ps_user">
+            <column name="username" value="admin@1"/>
+            <column name="password" value="$2a$10$hqEhVJ.MAS05rzMNgdik0ONMG0iBxV4U41tHMdT5DNT30y5neSlIy"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

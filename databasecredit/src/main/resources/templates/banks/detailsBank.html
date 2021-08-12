@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css" />
+</head>
+<body>
+  <h1>Система учета кредитов</h1>
+
+  <h1>Банк</h1>
+
+  <div th:if="${bank != null}">
+    <form method="POST" action="#" th:action="@{/banks.html}" th:object="${bank}">
+      <table>
+        <tr>
+          <td>ID:</td>
+          <td><input type="text" th:field="*{id}"></input></td>
+          <td th:if="${#fields.hasErrors('id')}" th:errors="*{id}">Id Error</td>
+        </tr>
+
+        <tr>
+          <td>Наименование банка:</td>
+          <td><input type="text" th:field="*{nameBank}" size="45"></input></td>
+          <td th:if="${#fields.hasErrors('nameBank')}" th:errors="*{nameBank}">NameBank Error</td>
+        </tr>
+
+        <tr>
+          <td>
+            <button type="submit" class="btn btn-primary">Update/Create Bank</button>
+          </td>
+
+        </tr>
+      </table>
+
+    </form>
+  </div>
+
+  <div th:if="${bank} == null">
+    <h1 th:tetx="'No bank found with id: '">Not found</h1>
+  </div>
+
+</body>
+</html>

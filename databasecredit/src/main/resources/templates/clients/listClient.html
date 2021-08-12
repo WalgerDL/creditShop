@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Client list</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css" th:href="@{/css/styles.css}" />
+</head>
+<body>
+    <h1>Система учета кредитов</h1>
+    <h2>Список клиентв</h2>
+    <div sec:authorize="hasRole('ROLE_ADMIN')">
+        <th:block th:include="/_menuA"></th:block>
+    </div>
+    <div sec:authorize="hasRole('ROLE_USER')">
+        <th:block th:include="/_menuU"></th:block>
+    </div>
+    <br/>
+    <table border="1">
+        <thead>
+        <tr>
+            <th width="40" align="center">NN</th>
+            <th>Полное имя</th>
+            <th>Дата рождения</th>
+            <th>Номер телефона</th>
+            <th>Электронная почта</th>
+            <th width="45">Банк</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="client : ${clients}">
+            <form action="#" th:action="@{/deleteClient(id=${client.id})}" th:object="${client}" method="post">
+                <td width="40" align="center">
+                    <a th:href="@{/clients.html(id=${client.id})}" href="#"
+                       th:text="${client.id}">12345</a>
+                </td>
+                <td th:text="${client.fullName}">Полное имя имя имя</td>
+                <td th:text="${client.birthDate}">Дата Дата Дата</td>
+                <td th:text="${client.numberPhone}">Номер телефона</td>
+                <td th:text="${client.email}">Электронная почта</td>
+                <td th:text="${client.bank.nameBank}" width="45">Банк bank bank</td>
+                <div sec:authorize="hasRole('ROLE_ADMIN')">
+                    <td><button>Delete</button></td>
+                </div>
+            </form>
+        </tr>
+        </tbody>
+    </table>
+    <br/>
+
+    <form action="#" th:action="@{/client}" th:object="${client}" method="post">
+        <button type="submit" class="btn btn-primary">Create Client</button>
+    </form>
+
+</body>
+</html>

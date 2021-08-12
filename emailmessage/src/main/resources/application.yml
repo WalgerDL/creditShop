@@ -1,0 +1,12 @@
+spring:
+  mail:
+    host: smtp.gmail.com
+    username: pivans123@gmail.com
+    port: 587
+    password:
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true

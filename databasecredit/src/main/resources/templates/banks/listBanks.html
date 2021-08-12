@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css" th:href="@{/css/styles.css}" />
+</head>
+<body>
+    <h1>Система учета кредитов</h1>
+    <h2>Список банков</h2>
+    <div sec:authorize="hasRole('ROLE_ADMIN')">
+        <th:block th:include="/_menuA"></th:block>
+    </div>
+    <div sec:authorize="hasRole('ROLE_USER')">
+        <th:block th:include="/_menuU"></th:block>
+    </div>
+    <br/>
+    <table border="1">
+        <thead>
+        <tr>
+            <th width="40" align="center">NN</th>
+            <th>Наименование банка</th>
+            <th>Список кредитов</th>
+            <th>Список клиентов</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="bank : ${banks}">
+                <form action="#" th:action="@{/deleteBank(id=${bank.id})}" th:object="${bank}" method="post">
+                    <td width="40" align="center">
+                        <a th:href="@{/banks.html(id=${bank.id})}" href="#"
+                           th:text="${bank.id}">12345</a>
+                    </td>
+                    <td th:text="${bank.nameBank}">Наименование банка</td>
+                    <td>
+                        <a th:href="@{/bankCredits(id=${bank.id})}" href="#"
+                           text="Кредиты">Список кредитов>></a>
+                    </td>
+                    <td>
+                        <a th:href="@{/bankClients(id=${bank.id})}" href="#"
+                           text="Клиенты">Список клиентов>></a>
+                    </td>
+                    <div sec:authorize="hasRole('ROLE_ADMIN')">
+                        <td><button>Delete</button></td>
+                    </div>
+                </form>
+            </tr>
+        </tbody>
+    </table>
+    <br/>
+    <form action="#" th:action="@{/bank}" th:object="${bank}" method="post">
+        <button type="submit" class="btn btn-primary">Create Bank</button>
+    </form>
+
+</body>
+</html>
